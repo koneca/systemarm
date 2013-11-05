@@ -1,0 +1,38 @@
+
+#####################
+# builds/rootfs/
+# Last modified: 1350824883.0000000000
+
+# create directory structure
+dir /dev 		775 0 0
+dir /sbin		775 0 0
+dir /usr		775 0 0
+dir /usr/bin	775 0 0
+dir /etc 		775 0 0
+dir /bin 		775 1000 1000
+dir /var 		775 0 0
+dir /proc		755 0 0
+dir /tmp		775 0 0
+dir /sys		775 0 0
+
+# create the devide nodes
+nod /dev/console 	644 0 0 c 5 1
+nod /dev/loop0 		644 0 0 b 7 0
+nod /dev/zero		600 0 0 c 1 5
+nod /dev/tty 		620 0 0 c 4 0
+nod /dev/null		666 0 0 c 1 5
+
+# import the files and executeables
+#file /bin/busybox ../../../busybox 755 0 0
+#slink /bin/ls		/bin/busybox 755 0 0
+#slink /bin/cd		/bin/busybox 755 0 0
+#slink /bin/vim		/bin/busybox 755 0 0
+#slink /bin/sh		/bin/busybox 755 0 0
+#slink /bin/mount	/bin/busybox 755 0 0
+#slink /bin/ps		/bin/busybox 755 0 0
+#slink /bin/top		/bin/busybox 755 0 0
+#slink /bin/mdev		/bin/busybox 755 0 0
+#file /bin/sysinf ../../../sysinf 755 0 0
+
+# the init script 
+#file /init ../../../init.sh 755 0 0
