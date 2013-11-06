@@ -7,22 +7,22 @@ cross_compile="CROSS_COMPILE=arm-linux-gnueabi-"
 
 
 #-----------------------------------------------------------
-if [ ! -e $version ];
+if [ ! -e "$version.tar.bz2" ];
 then
 	echo "Downloading linux kernel"
 	wget https://www.kernel.org/pub/linux/kernel/v3.0/$version.tar.bz2
 	echo "unpacking"
-	tar -xjf $version
+	tar -xjf "$version.tar.bz2"
 fi
 echo "$version downloaded and extracted!"
 
 #-----------------------------------------------------------
-if [ ! -e $bb ];
+if [ ! -e "$bb.tar.bz2" ];
 then
 	echo "Downloading $bb"
 	wget http://www.busybox.net/downloads/$bb.tar.bz2
 	echo "unpacking"
-	tar -xjf $bb
+	tar -xjf "$bb.tar.bz2"
 fi
 echo "$bb downloaded and extracted!"
 
@@ -35,26 +35,27 @@ cd ..
 sleep 3
 echo "building $bb"
 cd $bb
+make $arch $cross_compile menuconfig
 make $arch $cross_compile install
 cd ..
 echo "-----------------------------------------------------------"
 echo "completing rootfs"
 
-cd $bb/_install
-mkdir proc sys dev etc etc/init.d
-echo "#!bin/sh
+cd rootfs
+pwd
+mkdir proc
+mkdir sys
+mkdir dev
+mkdir etc
+mkdir etc/init.d
+arm-linux-gnueabi-gcc -static ../sysinf.c -o sbin/sysinfo
 
-mount -t proc none /proc
-
-mount -t sysfs none /sys
-
-/sbin/mdev -s" > etc/init.d/rcS
+cp ../rcS etc/init.d
 
 chmod +x etc/init.d/rcS
 find . | cpio -o --format=newc > ../rootfs.img
 cd ..
-gzip -c rootfs.img > ../rootfs.img.gz
-cd ..
+gzip -c rootfs.img > rootfs.img.gz
 
 echo "-----------------------------------------------------------"
 echo ""
@@ -65,7 +66,7 @@ echo " .-----------------------------------------------------------."
 
 read input
 echo "starting qemu"
-qemu-system-arm -M versatilepb -m 128M -kernel $version/arch/arm/boot/zImage -initrd $bb/rootfs.img -append “root=/dev/ram rdinit=/sbin/init”
+qemu-system-arm -M vexpress-a9 -kernel $version/arch/arm/boot/zImage -initrd rootfs.img.gz -append "root=/dev/ram rdinit=/sbin/init"
 
 exit
 

@@ -1,0 +1,22 @@
+
+!.gitignore
+rootfs.img*
+
+#dont ignore
+!linux-3.4.66/.config
+!linux-3.4.66/Makefile
+
+#ignore linux sources
+/linux-3.4.66/
+linux-3.4.66.tar.bz2
+
+#dont ignore
+!.busybox-1.21.1/.config
+!.busybox-1.21.1/Makefile
+#ignore bb sources
+/busybox-1.21.1/
+busybox-1.21.1.tar.bz2
+
+# don't ignore
+!rootfs/etc/rcS
+
