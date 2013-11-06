@@ -50,8 +50,6 @@ mkdir etc
 mkdir etc/init.d
 arm-linux-gnueabi-gcc -static ../sysinf.c -o sbin/sysinfo
 
-cp ../rcS etc/init.d
-
 chmod +x etc/init.d/rcS
 find . | cpio -o --format=newc > ../rootfs.img
 cd ..

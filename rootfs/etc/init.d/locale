@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#set locale to german
+
+case "$1" in
+	start) loadkmap < /bin/keymap_de_DE ;;
+	stop|restart|stop) exit 0 ;;
+esac
+	
+

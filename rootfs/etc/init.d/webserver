@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#set locale to german
+
+case "$1" in
+	start)
+		httpd -h /var/www & ;;
+	stop)
+		killall httpd ;;
+	restart) 
+		httpd -h /var/www &
+		killall httpd ;;
+esac
+	
+

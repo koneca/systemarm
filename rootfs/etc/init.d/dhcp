@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#set locale to german
+
+case "$1" in
+	start)
+		udhcpc -i eth0 -s /etc/udhcp/sample.script ;;
+	stop)
+		killall udhcpd ;;
+	restart) 
+		killall udhcpd		
+		udhcpc -i eth0 -s /etc/udhcp/sample.script ;;
+esac
+	
+
